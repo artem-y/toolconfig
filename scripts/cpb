@@ -1,0 +1,9 @@
+#!/bin/zsh
+
+BRANCH=$(git branch --show-current | tr -d '\n')
+
+if [ -n "${BRANCH}" ]; then
+    echo -n "${BRANCH}" | pbcopy
+    echo "Branch name '${BRANCH}' copied to clipboard!"
+fi
+
