@@ -1,9 +1,13 @@
-#!/bin/zsh
+#!/bin/bash
+
+GREEN="\033[32m"
+CYAN="\033[36m"
+CLEAR="\033[0m"
 
 BRANCH=$(git branch --show-current | tr -d '\n')
 
 if [ -n "${BRANCH}" ]; then
     echo -n "${BRANCH}" | pbcopy
-    echo "Branch name '${BRANCH}' copied to clipboard!"
+    echo -e "${GREEN}Branch name ${CYAN}${BRANCH}${GREEN} copied to clipboard!${CLEAR}"
 fi
 
