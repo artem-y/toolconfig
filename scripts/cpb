@@ -4,10 +4,21 @@ GREEN="\033[32m"
 CYAN="\033[36m"
 CLEAR="\033[0m"
 
+IS_QUIET_MODE=false
+while getopts "q" OPT; do
+    case $OPT in
+        q)
+            IS_QUIET_MODE=true
+            ;;
+    esac
+done
+
 BRANCH=$(git branch --show-current | tr -d '\n')
 
 if [ -n "${BRANCH}" ]; then
     echo -n "${BRANCH}" | pbcopy
-    echo -e "${GREEN}Branch name ${CYAN}${BRANCH}${GREEN} copied to clipboard!${CLEAR}"
+    if [ "${IS_QUIET_MODE}" = false ]; then
+        echo -e "${GREEN}Branch name ${CYAN}${BRANCH}${GREEN} copied to clipboard!${CLEAR}"
+    fi
 fi
 
