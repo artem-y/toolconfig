@@ -1,0 +1,67 @@
+#!/bin/bash
+
+BLACK=30
+RED=31
+GREEN=32
+YELLOW=33
+BLUE=34
+MAGENTA=35
+CYAN=36
+WHITE=37
+
+COLOR=$GREEN
+BLINK=""
+
+COLOR_ARG="$1"
+
+function first_char {
+    printf %.1s "$COLOR_ARG" | tr '[:upper:]' '[:lower:]'
+}
+
+# Check color
+if [[ $1 = [30-39] ]]; then
+ COLOR="$COLOR_ARG"
+
+elif [ "$COLOR_ARG" = "black" ]; then
+ COLOR=$BLACK
+
+elif [ "$(first_char)" = "g" ]; then
+ COLOR=$GREEN
+
+elif [ "$(first_char)" = "r" ]; then
+ COLOR=$RED
+
+elif [ "$(first_char)" = "y" ]; then
+ COLOR=$YELLOW
+
+elif [ "$(first_char)" = "b" ]; then
+ COLOR=$BLUE
+
+elif [ "$(first_char)" = "m" ]; then
+ COLOR=$MAGENTA
+
+elif [ "$(first_char)" = "c" ]; then
+ COLOR=$CYAN
+
+elif [ "$(first_char)" = "w" ]; then
+ COLOR=$WHITE
+
+fi
+
+# Check text type
+if [ "$2" = "blink" ]; then
+ BLINK='$;'
+fi
+
+# Read width of the terminal window
+COLS=$(tput cols)
+
+# Print the separator
+LINE=""
+
+for ((i = 0; i < $COLS; i++ )); do
+    LINE+="-"
+done
+
+echo -e "\033[0;${COLOR}${BLINK}m${LINE}$(tput sgr0)"
+
