@@ -1,0 +1,18 @@
+#!/bin/zsh
+
+# Local
+
+swift package purge-cache
+swift package clean
+rm -rf .swiftpm
+
+if [ -e Package.resolved ]; then
+    rm Package.resolved
+fi
+
+# Global
+
+rm -rf ~/Library/Developer/Xcode/DerivedData
+rm -rf ~/Library/org.swift.swiftpm
+rm -rf ~/Library/Caches/org.swift.swiftpm
+rm -rf ~/.swiftpm/security/fingerprints
