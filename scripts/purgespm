@@ -1,18 +1,66 @@
 #!/bin/zsh
 
+IS_UNSAFE_ALLOWED=false
+IS_VERBOSE=false
+
+function logIfVerbose() {
+    if $IS_VERBOSE; then
+        echo "$1"
+    fi
+}
+
+# Parse arguments
+
+for arg in "$@"; do
+    case $arg in
+        --unsafe)
+            IS_UNSAFE_ALLOWED=true
+            shift
+            ;;
+        --verbose | -v)
+            IS_VERBOSE=true
+            shift
+            ;;
+        *)
+            shift
+            ;;
+    esac
+done
+
 # Local
 
-swift package purge-cache
-swift package clean
+if [ -e Package.swift ]; then
+    logIfVerbose "Running swift package purge-cache..."
+    swift package purge-cache
+
+    logIfVerbose "Running swift package clean..."
+    swift package clean
+else
+    logIfVerbose "No Package.swift found, skipping local cache cleanup..."
+fi
+
+logIfVerbose "Removing .swiftpm..."
 rm -rf .swiftpm
 
 if [ -e Package.resolved ]; then
+    logIfVerbose "Removing Package.resolved..."
     rm Package.resolved
 fi
 
 # Global
 
+logIfVerbose "Removing ~/Library/Developer/Xcode/DerivedData..."
 rm -rf ~/Library/Developer/Xcode/DerivedData
+
+logIfVerbose "Removing ~/Library/Caches/org.swift.swiftpm..."
 rm -rf ~/Library/org.swift.swiftpm
+
+logIfVerbose "Removing ~/Library/Caches/org.swift.swiftpm..."
 rm -rf ~/Library/Caches/org.swift.swiftpm
-rm -rf ~/.swiftpm/security/fingerprints
+
+# Unsafe
+
+if [ "${IS_UNSAFE_ALLOWED}" = true ]; then
+    logIfVerbose "Removing ~/.swiftpm/security/fingerprints..."
+    rm -rf ~/.swiftpm/security/fingerprints
+fi
