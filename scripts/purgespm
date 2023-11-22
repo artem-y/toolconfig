@@ -60,7 +60,7 @@ rm -rf ~/Library/Caches/org.swift.swiftpm
 
 # Unsafe
 
-if [ "${IS_UNSAFE_ALLOWED}" = true ]; then
+if $IS_UNSAFE_ALLOWED; then
     logIfVerbose "Removing ~/.swiftpm/security/fingerprints..."
     rm -rf ~/.swiftpm/security/fingerprints
 fi
