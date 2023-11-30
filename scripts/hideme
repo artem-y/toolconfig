@@ -1,0 +1,6 @@
+#!/bin/zsh
+
+export PROMPT="me@mac %1~ %# "
+
+alias pwd="pwd|sed s/$(whoami)/me/"
+
