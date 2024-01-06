@@ -18,6 +18,12 @@ set autoindent
 
 " REMAPS:
 
+" Set leader
+let mapleader = " "
+
+" Exit to netrw explorer
+nnoremap <leader>e :Ex<CR>
+
 " Move selected lines
 vnoremap J :m '>+1<CR>gv
 vnoremap K :m '<-2<CR>gv
