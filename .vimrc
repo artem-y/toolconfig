@@ -50,3 +50,15 @@ vnoremap <s-tab> <gv
 nnoremap ; :
 vnoremap ; :
 
+" Paste last yanked buffer
+nnoremap ,p "0p
+
+" Yank to clipboard
+nnoremap <leader>y "+y
+vnoremap <leader>y "+y
+nnoremap <leader>Y "+Y
+
+" Paste from clipboard
+nnoremap <leader>p "+p
+vnoremap <leader>p "+p
+
