@@ -24,6 +24,21 @@ let mapleader = " "
 " Exit to netrw explorer
 nnoremap <leader>e :Ex<CR>
 
+" Enclose word in normal mode 
+nnoremap <leader>( viwdi()<C-[>hp
+nnoremap <leader>[ viwdi[]<C-[>hp
+nnoremap <leader>{ viwdi{}<C-[>hp
+nnoremap <leader>" viwdi""<C-[>hp
+nnoremap <leader>' viwdi''<C-[>hp
+nnoremap <leader>` viwdi``<C-[>hp
+" Enclose selection 
+vnoremap ( di()<C-[>hp
+vnoremap [ di[]<C-[>hp
+vnoremap { di{}<C-[>hp
+vnoremap " di""<C-[>hp
+vnoremap ' di''<C-[>hp
+vnoremap ` di``<C-[>hp
+
 " Move selected lines
 vnoremap J :m '>+1<CR>gv
 vnoremap K :m '<-2<CR>gv
