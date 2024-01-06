@@ -44,7 +44,7 @@ vnoremap J :m '>+1<CR>gv
 vnoremap K :m '<-2<CR>gv
 
 vnoremap <Tab> >gv
-vnoremap <s-tab> <gv
+vnoremap <S-Tab> <gv
 
 " Convenience hack to omit shift key for commands
 nnoremap ; :
