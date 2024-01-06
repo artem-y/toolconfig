@@ -1,6 +1,7 @@
 syntax on
 
 set wildmenu
+set nu
 set relativenumber
 
 " Use 4 spaces for tab
