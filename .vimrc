@@ -31,13 +31,15 @@ nnoremap <leader>{ viwdi{}<C-[>hp
 nnoremap <leader>" viwdi""<C-[>hp
 nnoremap <leader>' viwdi''<C-[>hp
 nnoremap <leader>` viwdi``<C-[>hp
+nnoremap <leader>< viwdi<><C-[>hp
 " Enclose selection 
-vnoremap ( di()<C-[>hp
-vnoremap [ di[]<C-[>hp
-vnoremap { di{}<C-[>hp
-vnoremap " di""<C-[>hp
-vnoremap ' di''<C-[>hp
-vnoremap ` di``<C-[>hp
+vnoremap <leader>( di()<C-[>hp
+vnoremap <leader>[ di[]<C-[>hp
+vnoremap <leader>{ di{}<C-[>hp
+vnoremap <leader>" di""<C-[>hp
+vnoremap <leader>' di''<C-[>hp
+vnoremap <leader>` di``<C-[>hp
+vnoremap <leader>< di<><C-[>hp
 
 " Move selected lines
 vnoremap J :m '>+1<CR>gv
