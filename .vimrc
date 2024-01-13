@@ -21,8 +21,9 @@ set autoindent
 " Set leader
 let mapleader = " "
 
-" Exit to netrw explorer
+" Exit to netrw explorer and go back
 nnoremap <leader>e :Ex<CR>
+nnoremap <leader>r :Rex<CR>
 
 " Enclose word in normal mode 
 nnoremap <leader>( viwdi()<C-[>hp
