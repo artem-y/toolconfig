@@ -65,3 +65,7 @@ nnoremap <leader>Y "+Y
 nnoremap <leader>p "+p
 vnoremap <leader>p "+p
 
+" Add new line in normal mode
+nnoremap <leader>o o<Esc>
+nnoremap <leader>O O<Esc>
+
