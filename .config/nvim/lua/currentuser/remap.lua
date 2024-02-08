@@ -1,0 +1,48 @@
+vim.g.mapleader = " "
+vim.keymap.set("n", "<leader>e", vim.cmd.Ex)
+vim.keymap.set("n", "<leader>r", vim.cmd.Rex)
+vim.keymap.set("n", ";", ":")
+
+-- Enclose word in normal mode 
+vim.keymap.set("n", "<leader>(", "viwdi()<C-[>hp")
+vim.keymap.set("n", "<leader>[", "viwdi[]<C-[>hp")
+vim.keymap.set("n", "<leader>{", "viwdi{}<C-[>hp")
+vim.keymap.set("n", "<leader>\"", "viwdi\"\"<C-[>hp")
+vim.keymap.set("n", "<leader>'", "viwdi''<C-[>hp")
+vim.keymap.set("n", "<leader>`", "viwdi``<C-[>hp")
+vim.keymap.set("n", "<leader><", "viwdi<><C-[>hp")
+-- Enclose selection 
+vim.keymap.set("v", "<leader>(", "di()<C-[>hp")
+vim.keymap.set("v", "<leader>[", "di[]<C-[>hp")
+vim.keymap.set("v", "<leader>{", "di{}<C-[>hp")
+vim.keymap.set("v", "<leader>\"", "di\"\"<C-[>hp")
+vim.keymap.set("v", "<leader>'", "di''<C-[>hp")
+vim.keymap.set("v", "<leader>`", "di``<C-[>hp")
+vim.keymap.set("v", "<leader><", "di<><C-[>hp")
+
+-- Move selected lines
+vim.keymap.set("v", "J", ":m '>+1<CR>gv")
+vim.keymap.set("v", "K", ":m '<-2<CR>gv")
+
+vim.keymap.set("v", "<Tab>", ">gv")
+vim.keymap.set("v", "<S-Tab>", "<gv")
+
+-- Convenience hack to omit shift key for commands
+vim.keymap.set("n", ";", ":")
+vim.keymap.set("v", ";", ":")
+
+-- Paste last yanked buffer
+vim.keymap.set("n", ",p", "\"0p")
+
+-- Yank to clipboard
+vim.keymap.set("n", "<leader>y", "\"+y")
+vim.keymap.set("v", "<leader>y", "\"+y")
+vim.keymap.set("n", "<leader>Y", "\"+Y")
+
+-- Paste from clipboard
+vim.keymap.set("n", "<leader>p", "\"+p")
+vim.keymap.set("v", "<leader>p", "\"+p")
+
+-- Add empty line in normal mode
+vim.keymap.set("n", "<leader>o", "o<Esc>")
+vim.keymap.set("n", "<leader>O", "O<Esc>")

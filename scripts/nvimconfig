@@ -1,0 +1,21 @@
+#!/bin/bash
+
+CURRENT_USER=$(whoami)
+
+# Path where Neovim config will be stored by default
+CONFIG_TARGET_PATH="${HOME}/.config/nvim"
+
+# Directory for user-specific Neovim configs in lua
+USER_TARGET_PATH="${CONFIG_TARGET_PATH}/lua/${CURRENT_USER}"
+
+# If there is no config directory for current user, create it
+if [ ! -d "${USER_TARGET_PATH}" ]; then
+    mkdir -p "${USER_TARGET_PATH}"
+fi
+
+# Copy config, renaming with the current user
+cp -rp ../.config/nvim/lua/currentuser/* "${USER_TARGET_PATH}" \
+&& cp ../.config/nvim/init.lua "${CONFIG_TARGET_PATH}" \
+&& sed -i.bak "s/currentuser/${CURRENT_USER}/g" "${CONFIG_TARGET_PATH}/init.lua" \
+&& rm "${CONFIG_TARGET_PATH}/init.lua.bak"
+
