@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 BLACK=30
 RED=31
@@ -19,10 +19,7 @@ function first_char {
 }
 
 # Check color
-if [[ $1 = [30-39] ]]; then
- COLOR="$COLOR_ARG"
-
-elif [ "$COLOR_ARG" = "black" ]; then
+if [ "$COLOR_ARG" = "black" ]; then
  COLOR=$BLACK
 
 elif [ "$(first_char)" = "g" ]; then
@@ -50,7 +47,7 @@ fi
 
 # Check text type
 if [ "$2" = "blink" ]; then
- BLINK='$;'
+ BLINK=';5'
 fi
 
 # Read width of the terminal window
@@ -59,9 +56,9 @@ COLS=$(tput cols)
 # Print the separator
 LINE=""
 
-for ((i = 0; i < $COLS; i++ )); do
-    LINE+="-"
+for i in $(seq 1 $COLS); do 
+    LINE="${LINE}-"
 done
 
-echo -e "\033[0;${COLOR}${BLINK}m${LINE}$(tput sgr0)"
+printf "\033[0;${COLOR}${BLINK}m${LINE}$(tput sgr0)\n"
 
