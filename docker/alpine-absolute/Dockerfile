@@ -1,11 +1,10 @@
 FROM alpine
 
 RUN apk update && \
-    apk add git vim make ncurses && \
+    apk add git neovim make ncurses && \
     rm -rf /var/cache/apk/*
 
 RUN git clone https://github.com/artem-y/toolconfig.git && \
-    cp toolconfig/.vimrc ~/.vimrc && \
     cd toolconfig/scripts/ && \
     cp sep /usr/local/bin/ && \
     cp cpb /usr/local/bin/ && \
