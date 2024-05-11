@@ -11,7 +11,9 @@ RUN git clone https://github.com/artem-y/toolconfig.git && \
     ./nvimconfig && \
     cd - && rm -rf toolconfig
 
-RUN wget https://github.com/artem-y/commit/releases/download/v0.1.2/bin.zip && \
+RUN GITHUB_API_RESPONSE=$(wget -qO- "https://api.github.com/repos/artem-y/commit/releases/latest") && \
+    LATEST_RELEASE=$(echo $GITHUB_API_RESPONSE | grep -o '"tag_name": *"[^"]*"' | cut -d'"' -f4 | tr -d "\n") && \
+    wget https://github.com/artem-y/commit/releases/download/$LATEST_RELEASE/bin.zip && \
     unzip bin.zip -d tempdir && \
     mv tempdir/bin/linux-arm/commit /usr/local/bin && \
     rm -rf tempdir bin.zip
