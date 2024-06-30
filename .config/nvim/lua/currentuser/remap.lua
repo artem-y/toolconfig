@@ -46,3 +46,13 @@ vim.keymap.set("v", "<leader>p", "\"+p")
 -- Add empty line in normal mode
 vim.keymap.set("n", "<leader>o", "o<Esc>")
 vim.keymap.set("n", "<leader>O", "O<Esc>")
+
+-- Add empty HTML template in normal mode
+vim.keymap.set("n", "<leader>html", "i<!Doctype HTML>\
+<html lang=\"en\">\
+<head>\
+<title></title>\
+</head>\
+<body>\
+</body>\
+</html><Esc>4k3wa")
