@@ -69,3 +69,5 @@ vnoremap <leader>p "+p
 nnoremap <leader>o o<Esc>
 nnoremap <leader>O O<Esc>
 
+" Add empty HTML template in normal mode
+nnoremap <leader>html i<!Doctype HTML><CR><html lang="en"><CR>    <head><CR>    <title></title><CR><BS></head><CR><body><CR></body><CR><BS></html><Esc>4k3wa
