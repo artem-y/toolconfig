@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# gst - 'git status' but with highlighted branch name
+
+CYAN="\x1b[36m"
+CLEAR="\x1b[0m"
+
+# Capture the output of 'git status' command with color enabled
+GIT_OUTPUT=$(GIT_PAGER=cat git -c color.status=always status)
+
+# Extract the branch name
+BRANCH=$(echo "${GIT_OUTPUT}" | grep 'On branch' | awk '{print $3}')
+
+# Output, highlighting the branch name
+echo "${GIT_OUTPUT}" | sed "s~${BRANCH}~${CYAN}${BRANCH}${CLEAR}~"
