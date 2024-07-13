@@ -8,6 +8,7 @@ RUN git clone https://github.com/artem-y/toolconfig.git && \
     cd toolconfig/scripts/ && \
     cp sep /usr/local/bin/ && \
     cp cpb /usr/local/bin/ && \
+    cp gst /usr/local/bin/ && \
     ./nvimconfig && \
     cd - && rm -rf toolconfig
 
