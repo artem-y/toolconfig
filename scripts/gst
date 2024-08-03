@@ -8,6 +8,11 @@ CLEAR="\033[0m"
 # Capture the output of 'git status' command with color enabled
 GIT_OUTPUT=$(GIT_PAGER=cat git -c color.status=always status)
 
+# Exit if output is empty
+if [ -z "${GIT_OUTPUT}" ]; then
+  exit 1
+fi
+
 # Extract the branch name
 BRANCH=$(echo "${GIT_OUTPUT}" | grep 'On branch' | awk '{print $3}')
 
