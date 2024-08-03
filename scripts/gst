@@ -10,7 +10,7 @@ GIT_OUTPUT=$(GIT_PAGER=cat git -c color.status=always status)
 
 # Exit if output is empty
 if [ -z "${GIT_OUTPUT}" ]; then
-  exit
+  exit 1
 fi
 
 # Extract the branch name
