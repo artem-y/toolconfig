@@ -4,7 +4,7 @@ DIV="--------------------------"
 PRUNE=""
 
 # Directory where all the repos are stored, update if needed
-REPOS_DIR="{HOME}/repos"
+REPOS_DIR="${HOME}/repos"
 
 while getopts "p" OPTION; do
     case $OPTION in
@@ -14,12 +14,23 @@ while getopts "p" OPTION; do
     esac
 done
 
-echo "FETCH ALL REPOS\n\
-in the directory: ${REPOS_DIR}"
+shift $((OPTIND-1))
+
+# Try to read the repos directory from the command line
+if [ -n "$1" ]; then
+    REPOS_DIR="$1"
+fi
+
+echo "FETCH ALL REPOS IN ${REPOS_DIR}"
 
 for REPO in $(ls $REPOS_DIR); do
+    REPO_PATH="${REPOS_DIR}/${REPO}"
+    if [ ! -d $REPO_PATH ]; then
+        continue
+    fi
+
     echo "$DIV"
-    cd "$REPOS_DIR/$REPO"
-    echo "Fetching repo: $REPO..."
+    cd $REPO_PATH && \
+    echo "Fetching repo: $REPO..." && \
     git fetch $PRUNE
 done
