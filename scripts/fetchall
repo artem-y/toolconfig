@@ -4,7 +4,7 @@ DIV="--------------------------"
 PRUNE=""
 
 # Directory where all the repos are stored, update if needed
-REPOS_DIR="{HOME}/repos"
+REPOS_DIR="${HOME}/repos"
 
 while getopts "p" OPTION; do
     case $OPTION in
