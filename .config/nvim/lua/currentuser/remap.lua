@@ -59,8 +59,8 @@ vim.keymap.set("n", "<leader>html", "i<!Doctype HTML>\
 
 -- Add Telescope
 local builtin = require("telescope.builtin")
-vim.keymap.set("n", "<leader>fb", builtin.buffers, {})
-vim.keymap.set("n", "<leader>ff", builtin.find_files, {})
-vim.keymap.set("n", "<leader>fh", builtin.help_tags, {})
-vim.keymap.set("n", "<leader>fk", builtin.keymaps, {})
-vim.keymap.set("n", "<leader>f?", builtin.builtin, {})
+vim.keymap.set("n", "<leader>fb", builtin.buffers, { desc = "buffers" })
+vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = "find_files" })
+vim.keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "help_tags" })
+vim.keymap.set("n", "<leader>fk", builtin.keymaps, { desc = "keymaps" })
+vim.keymap.set("n", "<leader>f?", builtin.builtin, { desc = "builtin" })
