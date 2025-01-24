@@ -8,6 +8,9 @@ CONFIG_TARGET_PATH="${HOME}/.config/nvim"
 # Directory for user-specific Neovim configs in lua
 USER_TARGET_PATH="${CONFIG_TARGET_PATH}/lua/${CURRENT_USER}"
 
+# Directory for plugins launched on start
+PLUGIN_START_PATH="${HOME}/.local/share/nvim/site/pack/plugins/start"
+
 # If there is no config directory for current user, create it
 if [ ! -d "${USER_TARGET_PATH}" ]; then
     mkdir -p "${USER_TARGET_PATH}"
@@ -19,3 +22,13 @@ cp -rp ../.config/nvim/lua/currentuser/* "${USER_TARGET_PATH}" \
 && sed -i.bak "s/currentuser/${CURRENT_USER}/g" "${CONFIG_TARGET_PATH}/init.lua" \
 && rm "${CONFIG_TARGET_PATH}/init.lua.bak"
 
+# Install Telescope if it's not there yet
+if [ ! -d "${PLUGIN_START_PATH}/telescope.nvim" ]; then
+    git clone https://github.com/nvim-telescope/telescope.nvim.git \
+        "${PLUGIN_START_PATH}/telescope.nvim"
+fi
+
+if [ ! -d "${PLUGIN_START_PATH}/plenary.nvim" ]; then
+    git clone https://github.com/nvim-lua/plenary.nvim.git \
+        "${PLUGIN_START_PATH}/plenary.nvim"
+fi
