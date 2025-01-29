@@ -8,3 +8,11 @@ vim.cmd("colorscheme vim")
 require('telescope').setup({
     defaults = {}
 })
+
+-- Add filetype-specific overrides for Go
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "go", "gomod", "gowork" },
+  callback = function()
+    vim.opt_local.expandtab = false
+  end,
+})
