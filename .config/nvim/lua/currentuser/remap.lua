@@ -2,6 +2,7 @@ vim.g.mapleader = " "
 vim.keymap.set("n", "<leader>e", vim.cmd.Ex)
 vim.keymap.set("n", "<leader>r", vim.cmd.Rex)
 vim.keymap.set("n", ";", ":")
+vim.keymap.set("n", "<leader>jd", ":lua vim.lsp.buf.definition()\n")
 
 -- Enclose word in normal mode 
 vim.keymap.set("n", "<leader>(", "viwdi()<C-[>hp")
@@ -11,7 +12,8 @@ vim.keymap.set("n", "<leader>\"", "viwdi\"\"<C-[>hp")
 vim.keymap.set("n", "<leader>'", "viwdi''<C-[>hp")
 vim.keymap.set("n", "<leader>`", "viwdi``<C-[>hp")
 vim.keymap.set("n", "<leader><", "viwdi<><C-[>hp")
--- Enclose selection 
+
+-- Enclose selection in visual mode
 vim.keymap.set("v", "<leader>(", "di()<C-[>hp")
 vim.keymap.set("v", "<leader>[", "di[]<C-[>hp")
 vim.keymap.set("v", "<leader>{", "di{}<C-[>hp")

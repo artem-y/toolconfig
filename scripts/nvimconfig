@@ -32,3 +32,9 @@ if [ ! -d "${PLUGIN_START_PATH}/plenary.nvim" ]; then
     git clone https://github.com/nvim-lua/plenary.nvim.git \
         "${PLUGIN_START_PATH}/plenary.nvim"
 fi
+
+# Instal LSP if it's not there yet
+if [ ! -d "${PLUGIN_START_PATH}/nvim-lspconfig" ]; then
+    git clone https://github.com/neovim/nvim-lspconfig.git \
+        "${PLUGIN_START_PATH}/nvim-lspconfig"
+fi
