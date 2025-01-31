@@ -1,6 +1,6 @@
 #!/bin/sh
 
-CURRENT_USER=$(whoami|sed -i.bak "s/.//g")
+CURRENT_USER=$(whoami|sed "s/\.//g")
 
 # Path where Neovim config will be stored by default
 CONFIG_TARGET_PATH="${HOME}/.config/nvim"
