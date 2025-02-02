@@ -27,26 +27,56 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
--- Launch Go LSP
-require("lspconfig").gopls.setup({
-  settings = {
-    gopls = {
-      analyses = {
-        unusedparams = true,
+-- Launch LSPs
+local lspconfig = require("lspconfig")
+
+local function is_installed(lsp)
+  return vim.fn.executable(lsp) == 1
+end
+
+local function attach(client, bfr)
+  if client.server_capabilities.documentFormattingProvider then
+    local augroup_name = string.format("%s-Format", client.name)
+
+    vim.api.nvim_create_autocmd("BufWritePre", {
+      group = vim.api.nvim_create_augroup(augroup_name, { clear = true }),
+      buffer = bfr,
+      callback = function()
+        vim.lsp.buf.format({ async = false })
+      end
+    })
+  end
+end
+
+if is_installed("gopls") then
+  lspconfig.gopls.setup({
+    settings = {
+      gopls = {
+        analyses = {
+          unusedparams = true,
+        },
+        staticcheck = true,
+        gofumpt = true,
       },
-      staticcheck = true,
-      gofumpt = true,
     },
-  },
-  on_attach = function(client, bfr)
-    if client.server_capabilities.documentFormattingProvider then
-      vim.api.nvim_create_autocmd("BufWritePre", {
-        group = vim.api.nvim_create_augroup("GoFormat", { clear = true }),
-        buffer = bfr,
-        callback = function()
-          vim.lsp.buf.format({ async = false })
-        end
-      })
-    end
-  end,
-})
+    on_attach = attach,
+  })
+end
+
+if is_installed("lua-language-server") then
+  lspconfig.lua_ls.setup({
+    settings = {
+      Lua = {
+        runtime = { version = "LuaJIT" },
+        diagnostics = {
+          globals = { "vim" },
+        },
+        workspace = {
+          library = vim.api.nvim_get_runtime_file("", true),
+        },
+        telemetry = { enable = false },
+      },
+    },
+    on_attach = attach,
+  })
+end
