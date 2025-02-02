@@ -72,7 +72,10 @@ if is_installed("lua-language-server") then
           globals = { "vim" },
         },
         workspace = {
-          library = vim.api.nvim_get_runtime_file("", true),
+          library = {
+            vim.fn.stdpath("config") .. "/lua/currentuser",
+            "/usr/share/nvim/runtime/lua",
+          },
         },
         telemetry = { enable = false },
       },
