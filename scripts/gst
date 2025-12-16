@@ -13,11 +13,35 @@ if [ -z "${GIT_OUTPUT}" ]; then
   exit 1
 fi
 
-# Extract the branch name
-BRANCH=$(echo "${GIT_OUTPUT}" | grep 'On branch' | awk '{print $3}')
+FIRST_LINE=$(printf '%s\n' "${GIT_OUTPUT}" | head -n1)
+CLEAN_FIRST_LINE=$(printf '%s' "${FIRST_LINE}" | sed "s~\x1b\[[0-9;]*[mK]~~g")
 
-# Make the branch name cyan
-COLORED_BRANCH=$(printf "${CYAN}%s${CLEAR}" "${BRANCH}")
+VALID_BRANCH_PREFIX="On branch "
+VALID_HEAD_DETACHED_PREFIX="HEAD detached at "
 
-# Output, highlighting the branch name
-echo "${GIT_OUTPUT}" | sed "s~${BRANCH}~${COLORED_BRANCH}~"
+HEAD_NAME=""
+VALID_PREFIX=""
+
+case "${CLEAN_FIRST_LINE}" in
+  # Handle branch
+  "${VALID_BRANCH_PREFIX}"*)
+    VALID_PREFIX=${VALID_BRANCH_PREFIX}
+    ;;
+  # Handle detached HEAD
+  "${VALID_HEAD_DETACHED_PREFIX}"*)
+    VALID_PREFIX=${VALID_HEAD_DETACHED_PREFIX}
+    ;;
+esac
+
+# Extract the HEAD name
+HEAD_NAME=${CLEAN_FIRST_LINE#${VALID_PREFIX}}
+
+if [ -n "${HEAD_NAME}" ]; then
+    # Make the HEAD name cyan
+    COLORED_HEAD_NAME=$(printf "${CYAN}%s${CLEAR}" "${HEAD_NAME}")
+    # Output, highlighting the HEAD name
+    echo "${GIT_OUTPUT}" | sed "s~${HEAD_NAME}~${COLORED_HEAD_NAME}~"
+else
+    # No supported HEAD detected, forward the original output
+    echo "${GIT_OUTPUT}"
+fi
