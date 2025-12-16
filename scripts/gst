@@ -17,7 +17,8 @@ FIRST_LINE=$(printf '%s\n' "${GIT_OUTPUT}" | head -n1)
 CLEAN_FIRST_LINE=$(printf '%s' "${FIRST_LINE}" | sed "s~\x1b\[[0-9;]*[mK]~~g")
 
 VALID_BRANCH_PREFIX="On branch "
-VALID_HEAD_DETACHED_PREFIX="HEAD detached at "
+VALID_HEAD_DETACHED_AT_PREFIX="HEAD detached at "
+VALID_HEAD_DETACHED_FROM_PREFIX="HEAD detached from "
 
 HEAD_NAME=""
 VALID_PREFIX=""
@@ -27,9 +28,13 @@ case "${CLEAN_FIRST_LINE}" in
   "${VALID_BRANCH_PREFIX}"*)
     VALID_PREFIX=${VALID_BRANCH_PREFIX}
     ;;
-  # Handle detached HEAD
-  "${VALID_HEAD_DETACHED_PREFIX}"*)
-    VALID_PREFIX=${VALID_HEAD_DETACHED_PREFIX}
+  # Handle detached HEAD at original commit
+  "${VALID_HEAD_DETACHED_AT_PREFIX}"*)
+    VALID_PREFIX=${VALID_HEAD_DETACHED_AT_PREFIX}
+    ;;
+  # Handle detached HEAD after new commits
+  "${VALID_HEAD_DETACHED_FROM_PREFIX}"*)
+    VALID_PREFIX=${VALID_HEAD_DETACHED_FROM_PREFIX}
     ;;
 esac
 
