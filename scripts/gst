@@ -4,20 +4,62 @@
 
 CYAN="\033[36m"
 CLEAR="\033[0m"
+RED="\033[31m"
 
 # Capture the output of 'git status' command with color enabled
 GIT_OUTPUT=$(GIT_PAGER=cat git -c color.status=always status)
+GIT_OUTPUT_PLAIN=$(GIT_PAGER=cat git -c color.status=never status)
 
 # Exit if output is empty
 if [ -z "${GIT_OUTPUT}" ]; then
   exit 1
 fi
 
-# Extract the branch name
-BRANCH=$(echo "${GIT_OUTPUT}" | grep 'On branch' | awk '{print $3}')
+FIRST_LINE=$(printf '%s\n' "${GIT_OUTPUT}" | head -n1)
+CLEAN_FIRST_LINE=$(printf '%s\n' "${GIT_OUTPUT_PLAIN}" | head -n1)
 
-# Make the branch name cyan
-COLORED_BRANCH=$(printf "${CYAN}%s${CLEAR}" "${BRANCH}")
+VALID_BRANCH_PREFIX="On branch "
+VALID_HEAD_DETACHED_AT_PREFIX="HEAD detached at "
+VALID_HEAD_DETACHED_FROM_PREFIX="HEAD detached from "
 
-# Output, highlighting the branch name
-echo "${GIT_OUTPUT}" | sed "s~${BRANCH}~${COLORED_BRANCH}~"
+HEAD_NAME=""
+VALID_PREFIX=""
+PREFIX_COLOR_BEFORE=""
+PREFIX_COLOR_AFTER=""
+
+highlight_prefix_red() {
+  PREFIX_COLOR_BEFORE=${RED}
+  PREFIX_COLOR_AFTER=${CLEAR}
+}
+
+case "${CLEAN_FIRST_LINE}" in
+  # Handle branch
+  "${VALID_BRANCH_PREFIX}"*)
+    VALID_PREFIX=${VALID_BRANCH_PREFIX}
+    ;;
+  # Handle detached HEAD at original commit
+  "${VALID_HEAD_DETACHED_AT_PREFIX}"*)
+    VALID_PREFIX=${VALID_HEAD_DETACHED_AT_PREFIX}
+    highlight_prefix_red
+    ;;
+  # Handle detached HEAD after new commits
+  "${VALID_HEAD_DETACHED_FROM_PREFIX}"*)
+    VALID_PREFIX=${VALID_HEAD_DETACHED_FROM_PREFIX}
+    highlight_prefix_red
+    ;;
+esac
+
+# Extract the HEAD name
+HEAD_NAME=${CLEAN_FIRST_LINE#${VALID_PREFIX}}
+
+if [ -n "${VALID_PREFIX}" ] && [ -n "${HEAD_NAME}" ]; then
+    # Make the HEAD name cyan
+    COLORED_HEAD_NAME=$(printf "${CYAN}%s${CLEAR}" "${HEAD_NAME}")
+    # Output, highlighting the HEAD name
+    NEXT_LINES=$(printf '%s\n' "${GIT_OUTPUT}" | tail -n +2)
+    printf "${PREFIX_COLOR_BEFORE}${VALID_PREFIX}${PREFIX_COLOR_AFTER}%s\n" "${COLORED_HEAD_NAME}"
+    printf "%s\n" "${NEXT_LINES}"
+else
+    # No supported HEAD detected, forward the original output
+    printf '%s\n' "${GIT_OUTPUT}"
+fi
