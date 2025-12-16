@@ -61,5 +61,5 @@ if [ -n "${VALID_PREFIX}" ] && [ -n "${HEAD_NAME}" ]; then
     printf '%s\n' "${NEXT_LINES}"
 else
     # No supported HEAD detected, forward the original output
-    echo "${GIT_OUTPUT}"
+    printf '%s\n' "${GIT_OUTPUT}"
 fi
