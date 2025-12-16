@@ -27,6 +27,11 @@ VALID_PREFIX=""
 PREFIX_COLOR_BEFORE=""
 PREFIX_COLOR_AFTER=""
 
+function highlight_prefix_red() {
+  PREFIX_COLOR_BEFORE=${RED}
+  PREFIX_COLOR_AFTER=${CLEAR}
+}
+
 case "${CLEAN_FIRST_LINE}" in
   # Handle branch
   "${VALID_BRANCH_PREFIX}"*)
@@ -35,14 +40,12 @@ case "${CLEAN_FIRST_LINE}" in
   # Handle detached HEAD at original commit
   "${VALID_HEAD_DETACHED_AT_PREFIX}"*)
     VALID_PREFIX=${VALID_HEAD_DETACHED_AT_PREFIX}
-    PREFIX_COLOR_BEFORE=${RED}
-    PREFIX_COLOR_AFTER=${CLEAR}
+    highlight_prefix_red
     ;;
   # Handle detached HEAD after new commits
   "${VALID_HEAD_DETACHED_FROM_PREFIX}"*)
     VALID_PREFIX=${VALID_HEAD_DETACHED_FROM_PREFIX}
-    PREFIX_COLOR_BEFORE=${RED}
-    PREFIX_COLOR_AFTER=${CLEAR}
+    highlight_prefix_red
     ;;
 esac
 
