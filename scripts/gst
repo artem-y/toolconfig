@@ -27,7 +27,7 @@ VALID_PREFIX=""
 PREFIX_COLOR_BEFORE=""
 PREFIX_COLOR_AFTER=""
 
-function highlight_prefix_red() {
+highlight_prefix_red() {
   PREFIX_COLOR_BEFORE=${RED}
   PREFIX_COLOR_AFTER=${CLEAR}
 }
@@ -52,13 +52,13 @@ esac
 # Extract the HEAD name
 HEAD_NAME=${CLEAN_FIRST_LINE#${VALID_PREFIX}}
 
-if [ -n "${HEAD_NAME}" ]; then
+if [ -n "${VALID_PREFIX}" ] && [ -n "${HEAD_NAME}" ]; then
     # Make the HEAD name cyan
     COLORED_HEAD_NAME=$(printf "${CYAN}%s${CLEAR}" "${HEAD_NAME}")
     # Output, highlighting the HEAD name
     NEXT_LINES=$(printf '%s\n' "${GIT_OUTPUT}" | tail -n +2)
-    echo "${PREFIX_COLOR_BEFORE}${VALID_PREFIX}${PREFIX_COLOR_AFTER}${COLORED_HEAD_NAME}"
-    echo "${NEXT_LINES}"
+    printf '%s\n' "${PREFIX_COLOR_BEFORE}${VALID_PREFIX}${PREFIX_COLOR_AFTER}${COLORED_HEAD_NAME}"
+    printf '%s\n' "${NEXT_LINES}"
 else
     # No supported HEAD detected, forward the original output
     echo "${GIT_OUTPUT}"
