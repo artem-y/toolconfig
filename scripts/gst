@@ -4,9 +4,11 @@
 
 CYAN="\033[36m"
 CLEAR="\033[0m"
+RED="\033[31m"
 
 # Capture the output of 'git status' command with color enabled
 GIT_OUTPUT=$(GIT_PAGER=cat git -c color.status=always status)
+GIT_OUTPUT_PLAIN=$(GIT_PAGER=cat git -c color.status=never status)
 
 # Exit if output is empty
 if [ -z "${GIT_OUTPUT}" ]; then
@@ -14,7 +16,7 @@ if [ -z "${GIT_OUTPUT}" ]; then
 fi
 
 FIRST_LINE=$(printf '%s\n' "${GIT_OUTPUT}" | head -n1)
-CLEAN_FIRST_LINE=$(printf '%s' "${FIRST_LINE}" | sed "s~\x1b\[[0-9;]*[mK]~~g")
+CLEAN_FIRST_LINE=$(printf '%s\n' "${GIT_OUTPUT_PLAIN}" | head -n1)
 
 VALID_BRANCH_PREFIX="On branch "
 VALID_HEAD_DETACHED_AT_PREFIX="HEAD detached at "
@@ -22,6 +24,8 @@ VALID_HEAD_DETACHED_FROM_PREFIX="HEAD detached from "
 
 HEAD_NAME=""
 VALID_PREFIX=""
+PREFIX_COLOR_BEFORE=""
+PREFIX_COLOR_AFTER=""
 
 case "${CLEAN_FIRST_LINE}" in
   # Handle branch
@@ -31,10 +35,14 @@ case "${CLEAN_FIRST_LINE}" in
   # Handle detached HEAD at original commit
   "${VALID_HEAD_DETACHED_AT_PREFIX}"*)
     VALID_PREFIX=${VALID_HEAD_DETACHED_AT_PREFIX}
+    PREFIX_COLOR_BEFORE=${RED}
+    PREFIX_COLOR_AFTER=${CLEAR}
     ;;
   # Handle detached HEAD after new commits
   "${VALID_HEAD_DETACHED_FROM_PREFIX}"*)
     VALID_PREFIX=${VALID_HEAD_DETACHED_FROM_PREFIX}
+    PREFIX_COLOR_BEFORE=${RED}
+    PREFIX_COLOR_AFTER=${CLEAR}
     ;;
 esac
 
@@ -45,7 +53,9 @@ if [ -n "${HEAD_NAME}" ]; then
     # Make the HEAD name cyan
     COLORED_HEAD_NAME=$(printf "${CYAN}%s${CLEAR}" "${HEAD_NAME}")
     # Output, highlighting the HEAD name
-    echo "${GIT_OUTPUT}" | sed "s~${HEAD_NAME}~${COLORED_HEAD_NAME}~"
+    NEXT_LINES=$(printf '%s\n' "${GIT_OUTPUT}" | tail -n +2)
+    echo "${PREFIX_COLOR_BEFORE}${VALID_PREFIX}${PREFIX_COLOR_AFTER}${COLORED_HEAD_NAME}"
+    echo "${NEXT_LINES}"
 else
     # No supported HEAD detected, forward the original output
     echo "${GIT_OUTPUT}"
