@@ -8,7 +8,6 @@ RED="\033[31m"
 
 # Capture the output of 'git status' command with color enabled
 GIT_OUTPUT=$(GIT_PAGER=cat git -c color.status=always status)
-GIT_OUTPUT_PLAIN=$(GIT_PAGER=cat git -c color.status=never status)
 
 # Exit if output is empty
 if [ -z "${GIT_OUTPUT}" ]; then
@@ -16,7 +15,8 @@ if [ -z "${GIT_OUTPUT}" ]; then
 fi
 
 FIRST_LINE=$(printf '%s\n' "${GIT_OUTPUT}" | head -n1)
-CLEAN_FIRST_LINE=$(printf '%s\n' "${GIT_OUTPUT_PLAIN}" | head -n1)
+ESC=$(printf '\033')
+CLEAN_FIRST_LINE=$(printf '%s\n' "${FIRST_LINE}" | sed "s/${ESC}\[[0-9;]*m//g")
 
 VALID_BRANCH_PREFIX="On branch "
 VALID_HEAD_DETACHED_AT_PREFIX="HEAD detached at "
