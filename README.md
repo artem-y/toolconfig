@@ -9,6 +9,7 @@ Basic settings to save time configuring a new machine
 - `nvimconfig` - Install Neovim configs into `~/.config` directory and set its user config subdirectory to the current user. Also install Telescope. Convenience script, __should run from the `scripts` directory.__
 - `purgespm` - Delete local and global caches of Swift Package Manager, including derived data and security fingerprints
 - `sep` - Print a separator
+- `shake` - Shake Xcode device hub / iOS simulator
 
 ## Commands
 - `mkdj` - Make directory and jump into it, convenience function in `.zshrc`
