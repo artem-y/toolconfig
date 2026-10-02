@@ -1,0 +1,5 @@
+#!/bin/zsh
+
+DEVICE="${1:-booted}"
+
+xcrun simctl spawn $DEVICE notifyutil -p com.apple.UIKit.SimulatorShake
